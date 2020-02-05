@@ -29,18 +29,22 @@
       }
 
       #controls {
-        width: 500px;
+        width: 400px;
+        height: 175px; 
+        opacity: 75%;
       }
 
       #outer-container {
         padding: 15px;
-        width: 500px;
+        width: 400px;
+        height: 150px; 
       }
 
       #description {
         padding: 10px 10px 0px 10px;
-        font-size: 14pt;
+        font-size: 9.5pt;
       }
+
 
       #titleDiv {
         padding: 10px;
@@ -93,12 +97,11 @@
               spatialReference: {
                 wkid: 4326
               },
-              x: -85.25,
-              y: 35.1,
-              z: 45000 // meters
-            },
-            heading: 0,
-            tilt: 0.15 
+        x: -85.25,
+        y: 34.84,
+        z: 38000 // meters
+      },
+      tilt: 35
           }
         });
 
@@ -178,11 +181,11 @@
   <body>
     <div id="viewDiv"></div>
     <div id="titleDiv" class="esri-widget">
-      <div id="titleText">Chattanooga Tennessee</div>
-      <div>Accident Bufffers</div>
+      <div id="titleText">Chattanooga, Tennessee</div>
+      <div>24 Hour Accident Model</div>
     </div>
     <div id="controls" class="esri-widget">
-      <div id="description" class="esri-widget">Accident Buffers</div>
+      <div id="description" class="esri-widget">Aggrigated Accidents Occuring Every Hour Inside Hexagon Grids</div>
       <div id="outer-container" class="esri-widget">
         <div id="slider-container"></div>
       </div>
