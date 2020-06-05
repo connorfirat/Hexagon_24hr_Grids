@@ -10,7 +10,7 @@
   For more information about the widgets-histogramrangeslider sample, read the original sample description at developers.arcgis.com.
   https://developers.arcgis.com/javascript/latest/sample-code/widgets-histogramrangeslider/index.html
   -->
-<title>HistogramRangeSlider - 4.14</title>
+<title>Hexagon 24hr Grids</title>
 
     <link
       rel="stylesheet"
@@ -18,164 +18,9 @@
     />
     <script src="https://js.arcgis.com/4.14/"></script>
 
-    <style>
-      html,
-      body,
-      #viewDiv {
-        padding: 0;
-        margin: 0;
-        height: 100%;
-        width: 100%;
-      }
 
-      #controls {
-        width: 400px;
-        height: 175px; 
-        opacity: 75%;
-      }
+    <link rel="stylesheet" href="styles.css">
 
-      #outer-container {
-        padding: 15px;
-        width: 400px;
-        height: 150px; 
-      }
-
-      #description {
-        padding: 10px 10px 0px 10px;
-        font-size: 9.5pt;
-      }
-
-
-      #titleDiv {
-        padding: 10px;
-      }
-
-      #titleText {
-        font-size: 20pt;
-        font-weight: 60;
-        padding-bottom: 10px;
-      }
-    </style>
-
-    <script>
-      require([
-        "esri/Map",
-        "esri/views/SceneView",
-        "esri/layers/SceneLayer",
-        "esri/widgets/Expand",
-        "esri/widgets/HistogramRangeSlider",
-        "esri/renderers/smartMapping/statistics/histogram",
-        "esri/core/promiseUtils"        
-      ], function(
-         Map, 
-         SceneView,
-         SceneLayer,
-         Expand,
-         HistogramRangeSlider,
-         histogram,
-         promiseUtils
-      ) {
-        const layer = new SceneLayer({
-        portalItem: {
-            id: "742dfd8ac1414dc9b6d7aac19296edfe"
-                 
-          },
-          popupEnabled: true
-        });       
-        
-        const map = new Map({
-          basemap: "dark-gray-vector",
-          layers: [layer],
-          ground: "world-elevation"
-        });
-
-        const view = new SceneView({
-          map: map,
-          container: "viewDiv",
-          camera: {
-            position: {
-              spatialReference: {
-                wkid: 4326
-              },
-        x: -85.25,
-        y: 34.84,
-        z: 38000 // meters
-      },
-      tilt: 35
-          }
-        });
-
-        view.whenLayerView(layer).then(function(layerView) {
-          const field = "Int_Hour";
-          const min = 0;
-          const max = 23;
-
-          histogram({
-            layer: layer,
-            field: "Int_Hour",
-            numBins: 23,
-            minValue: min,
-            maxValue: max
-          }).then(function(histogramResponse) {
-            const slider = new HistogramRangeSlider({
-              bins: histogramResponse.bins,
-              min: min,
-              max: max,
-              values: [min],
-              excludedBarColor: "#524e4e",
-              rangeLabelsVisible: true,
-              labelsVisible: true,
-              labelInputsEnabled: true,
-              precision: 0,
-              steps: 1,     
-              rangeType: "equal",
-              container: document.getElementById("slider-container")
-            });
-                      
-            slider.labelFormatFunction = function(field){
-                if(field == 0){
-                  return (field + 12) + "am"
-                  }          
-                if(field >= 1 && field <= 11){
-                  return (field) + "am"
-                  }
-                if(field == 12){
-                  return (field) + "pm"
-                  }         
-                if(field >= 13 && field <= 23){
-                  return (field - 12) + "pm"
-                  }
-            }
-                
-            slider.on(["thumb-change", "thumb-drag", "segment-drag"], function(
-              event
-            ) {
-              filterByHistogramRange(field).catch(function(error) {
-                if (error.name !== "AbortError") {
-                  console.error(error);
-                }
-              });
-            });  
-            const filterByHistogramRange = promiseUtils.debounce(function(
-              field
-            ) {
-              layerView.filter = {
-                where: slider.generateWhereClause(field)
-              };
-            });    
-            const filterExpand = new Expand({
-              view: view,
-              content: document.getElementById("controls"),
-              expandIconClass: "esri-icon-filter",
-              expanded: true
-            });
-            view.ui.add(filterExpand, "bottom-left");
-            view.ui.add("titleDiv", "top-right");
-    
-  });
-});        
-      });
-    </script>
   </head>
 
   <body>
@@ -187,8 +32,9 @@
     <div id="controls" class="esri-widget">
       <div id="description" class="esri-widget">Aggrigated Accidents Occuring Every Hour Inside Hexagon Grids</div>
       <div id="outer-container" class="esri-widget">
-        <div id="slider-container"></div>
+        <div id="slider-container" class="esri-widget"></div>
       </div>
     </div>
+  <script src="Hexagon_24hr_Grids.js"></script>
   </body>
 </html>
